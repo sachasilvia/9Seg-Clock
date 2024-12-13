@@ -5,6 +5,19 @@ Credits to Rui Santos for original Date and Time retrieval from an NTP Server
 For 9-Segment LED Clock 
 */ 
 
+/* Map
+0  -  0    0  -  0    x    0  -  0    0  -  0
+|  x  |    |  x  |    |    |  x  |    |  x  | 
+0  -  0    0  -  0    x    0  -  0    0  -  0
+|  x  |    |  x  |    |    |  x  |    |  x  |
+0  -  0    0  -  0    x    0  -  0    0  -  0
+
+4  5 14   15 24 25   34   35 44 45   54 55 64
+3  6 13   16 23 26   33   36 43 46   53 56 63
+2  7 12   17 22 27   32   37 42 47   52 57 62
+1  8 11   18 21 28   31   38 41 48   51 58 61
+0  9 10   19 20 29   30   39 40 49   50 59 60
+*/
 // Import Libraires 
 #include <NTPClient.h>
 #include <WiFiUdp.h>
