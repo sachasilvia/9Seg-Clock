@@ -31,8 +31,8 @@ For 9-Segment LED Clock
 #define NUMPIXELS 0 // Total LEDs
 
 // Declare gloabal vars
-byte H; // Store hours
-byte M; // Store minutes
+int H; // Store hours
+int M; // Store minutes
 
 // Initialize global vars
 const char* ssid = "Shelby"; // Router SSID
