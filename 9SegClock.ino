@@ -62,7 +62,67 @@ void setled(int start, int end, bool hiLo) {
     pixels.show();
   }
 }
-
+void drawColon(){
+  setled(33,33);
+  setled(31,31);
+}
+void drawZero(int zeroFace){
+  if (zeroFace == 1){
+    setled(0,5);
+    setled(9,14);
+  }
+  if (zeroFace == 2){
+    setled(15,20);
+    setled(24,29);
+  }
+  if (zeroFace == 3){
+    setled(35,40);
+    setled(44,49);
+  }
+  if (zeroFace == 4){
+    setled(50,55);
+    setled(59,60);
+  }
+}
+void drawOne(int oneFace){
+  if (oneFace == 1){setled(10,14);}
+  if (oneFace == 2){setled(25,29);}
+  if (oneFace == 3){setled(45,49);}
+  if (oneFace == 4){setled(60,64);}
+}
+void drawTwo(int twoFace){
+  if (twoFace == 1){
+    setled(4,5);
+    setled(12,14);
+    setled(7,7);
+    setled(2,0);
+    setled(9,10);
+  }
+  if (twoFace == 2){
+    setled(15,15);
+    setled(24,27);
+    setled(22,22);
+    setled(17,20);
+    setled(29,29);
+  }
+  if (twoFace == 3){
+    setled(35,35);
+    setled(44,47);
+    setled(42,42);
+    setled(37,40);
+    setled(49,49);
+  }
+  if (twoFace == 4){
+    setled(54,55);
+    setled(62,64);
+    setled(57,57);
+    setled(50,52);
+    setled(59,60);
+  }
+}
+void drawThree(int threeFace){
+  
+}
 // This method runs once 
 void setup() {
   Serial.begin(115200); // Start console at needed baud rate
