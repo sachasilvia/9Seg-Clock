@@ -32,13 +32,14 @@ For 9-Segment LED Clock
 
 // Declare gloabal vars
 int H; // Store hours
-int M; // Store minutes
+int M; // Store minutes 
 
 // Initialize global vars
 const char* ssid = "Shelby"; // Router SSID
 const char* password = "80138013"; // Router password
 const long utcOffsetInSeconds = EST; // Set Timezone
 const int GPIO13 = 13;
+int updateFrequency = 1000;
 bool high = true;
 bool low = false;
 
@@ -51,17 +52,12 @@ Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800); // NPXL
 This method identifies a given range of LEDs and turns them on or off (inclusive)
 Call the function via: setled(int,int,bool);
 */
-void setled(int start, int end, bool hiLo) {
-  for (int pixel = 0; pixel < numPixels; pixel++){
-    if(hiLow == high){
+void setled(int start, int end) {
+  for (int pixel = start; pixel <= end; pixel++){
       pixels.setPixelColor(pixel, pixels.Color(255, 255, 255));
-    }
-    else{
-      pixels.setPixelColor(pixel, pixels.Color(0, 0, 0));
     }
     pixels.show();
   }
-}
 void drawColon(){
   setled(33,33);
   setled(31,31);
@@ -126,16 +122,18 @@ void drawThree(int threeFace){
 // This method runs once 
 void setup() {
   Serial.begin(115200); // Start console at needed baud rate
-  Serial.println("Establishing connection with: " + ssid);
+  Serial.print("Establishing connection with: ");
+  Serial.println(ssid);
   WiFi.begin(ssid, password); // Start WiFi 
   // Loop until connection
-  while (WiFi.status != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.print(".");
   }
   Serial.println("");
-  Serial.println("Successfully connected to: " + ssid);
-  timeClinet.begin(); // Get time 
+  Serial.print("Successfully connected to: ");
+  Serial.println(ssid);
+  timeClient.begin(); // Get time 
   pixels.begin(); // Create pixels
   pixels.clear(); // Wipe pixel data
 }
