@@ -26,7 +26,7 @@ For 9-Segment LED Clock
 
 // Define param values
 #define EST -18000 // Offset from GMT (sec)
-#define updateFrequency // Time check delay 
+#define updateFrequency 1000// Time check delay 
 #define PIN GPIO13 // Set NPXL to ESP pin
 #define NUMPIXELS 0 // Total LEDs
 
@@ -39,7 +39,6 @@ const char* ssid = "Shelby"; // Router SSID
 const char* password = "80138013"; // Router password
 const long utcOffsetInSeconds = EST; // Set Timezone
 const int GPIO13 = 13;
-int updateFrequency = 1000;
 bool high = true;
 bool low = false;
 
@@ -50,75 +49,122 @@ Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800); // NPXL
 
 /*
 This method identifies a given range of LEDs and turns them on or off (inclusive)
-Call the function via: setled(int,int,bool);
+Call the function via: setLed(int,int,bool);
 */
-void setled(int start, int end) {
-  for (int pixel = start; pixel <= end; pixel++){
-      pixels.setPixelColor(pixel, pixels.Color(255, 255, 255));
+void setLed(int sStart, int sEnd) {
+  for (int sPixel = sStart; sPixel <= sEnd; sPixel++){
+      pixels.setPixelColor(sPixel, pixels.Color(245, 245, 220));
     }
     pixels.show();
   }
-void drawColon(){
-  setled(33,33);
-  setled(31,31);
+
+void clearLed(int cStart, int cEnd){
+  for (int cPixel = cStart; cPixel <= cEnd; cPixel++){
+    pixels.setPixelColor(cPixel, pixels.Color(0xFF));
+  }
+  pixels.show();
 }
+
+void clearFace(int face){
+  if (face == 1){clearLed(0,14);}
+  if (face == 2){clearLed(15,29);}
+  if (face == 3){clearLed(35,49);}
+  if (face == 4){clearLed(50,64);}
+}
+
+void drawColon(){
+  setLed(33,33);
+  setLed(31,31);
+}
+
 void drawZero(int zeroFace){
   if (zeroFace == 1){
-    setled(0,5);
-    setled(9,14);
+    setLed(0,5);
+    setLed(9,14);
   }
-  if (zeroFace == 2){
-    setled(15,20);
-    setled(24,29);
+  else if (zeroFace == 2){
+    setLed(15,20);
+    setLed(24,29);
   }
-  if (zeroFace == 3){
-    setled(35,40);
-    setled(44,49);
+  else if (zeroFace == 3){
+    setLed(35,40);
+    setLed(44,49);
   }
-  if (zeroFace == 4){
-    setled(50,55);
-    setled(59,60);
+  else if (zeroFace == 4){
+    setLed(50,55);
+    setLed(59,60);
   }
 }
+
 void drawOne(int oneFace){
-  if (oneFace == 1){setled(10,14);}
-  if (oneFace == 2){setled(25,29);}
-  if (oneFace == 3){setled(45,49);}
-  if (oneFace == 4){setled(60,64);}
+  if (oneFace == 1){setLed(10,14);}
+  else if (oneFace == 2){setLed(25,29);}
+  else if (oneFace == 3){setLed(45,49);}
+  else if (oneFace == 4){setLed(60,64);}
 }
+
 void drawTwo(int twoFace){
   if (twoFace == 1){
-    setled(4,5);
-    setled(12,14);
-    setled(7,7);
-    setled(2,0);
-    setled(9,10);
+    setLed(4,5);
+    setLed(12,14);
+    setLed(7,7);
+    setLed(2,0);
+    setLed(9,10);
   }
-  if (twoFace == 2){
-    setled(15,15);
-    setled(24,27);
-    setled(22,22);
-    setled(17,20);
-    setled(29,29);
+  else if (twoFace == 2){
+    setLed(15,15);
+    setLed(24,27);
+    setLed(22,22);
+    setLed(17,20);
+    setLed(29,29);
   }
-  if (twoFace == 3){
-    setled(35,35);
-    setled(44,47);
-    setled(42,42);
-    setled(37,40);
-    setled(49,49);
+  else if (twoFace == 3){
+    setLed(35,35);
+    setLed(44,47);
+    setLed(42,42);
+    setLed(37,40);
+    setLed(49,49);
   }
-  if (twoFace == 4){
-    setled(54,55);
-    setled(62,64);
-    setled(57,57);
-    setled(50,52);
-    setled(59,60);
+  else if (twoFace == 4){
+    setLed(54,55);
+    setLed(62,64);
+    setLed(57,57);
+    setLed(50,52);
+    setLed(59,60);
   }
 }
+
 void drawThree(int threeFace){
-  
+  if (threeFace == 1){
+    setLed(4,5);
+    setLed(9,14);
+    setLed(7,7);
+    setLed(2,2);
+    setLed(0,0);
+  }
+  else if(threeFace == 2){
+    setLed(15,15);
+    setLed(24,29);
+    setLed(17,17);
+    setLed(22,22);
+    setLed(19,20);
+    }
+  else if(threeFace == 3){
+    setLed(35,35);
+    setLed(44,49);
+    setLed(37,37);
+    setLed(42,42);
+    setLed(39,40);
+  }
+  else if(threeFace == 4){
+    setLed(54,55);
+    setLed(64,59);
+    setLed(57,57);
+    setLed(52,52);
+    setLed(50,50);
+  }
 }
+
 // This method runs once 
 void setup() {
   Serial.begin(115200); // Start console at needed baud rate
@@ -136,6 +182,7 @@ void setup() {
   timeClient.begin(); // Get time 
   pixels.begin(); // Create pixels
   pixels.clear(); // Wipe pixel data
+  drawColon();
 }
 
 // This method is an inf. loop
