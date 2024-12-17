@@ -77,7 +77,7 @@ void drawColon(){
   setLed(31,31);
 }
 
-void drawZero(int zeroFace){
+void drawZero(int zeroFace){ //1-4
   clearFace(zeroFace);
   if (zeroFace == 1){
     setLed(0,5);
@@ -97,22 +97,17 @@ void drawZero(int zeroFace){
   }
 }
 
-void drawOne(int oneFace){
+void drawOne(int oneFace){ //1-4
+  clearFace(oneFace);
   if (oneFace == 1){setLed(10,14);}
   else if (oneFace == 2){setLed(25,29);}
   else if (oneFace == 3){setLed(45,49);}
   else if (oneFace == 4){setLed(60,64);}
 }
 
-void drawTwo(int twoFace){
-  if (twoFace == 1){
-    setLed(4,5);
-    setLed(12,14);
-    setLed(7,7);
-    setLed(2,0);
-    setLed(9,10);
-  }
-  else if (twoFace == 2){
+void drawTwo(int twoFace){ //2-4
+  clearFace(twoFace);
+  if (twoFace == 2){
     setLed(15,15);
     setLed(24,27);
     setLed(22,22);
@@ -135,33 +130,71 @@ void drawTwo(int twoFace){
   }
 }
 
-void drawThree(int threeFace){
-  if (threeFace == 1){
-    setLed(4,5);
-    setLed(9,14);
-    setLed(7,7);
-    setLed(2,2);
-    setLed(0,0);
-  }
-  else if(threeFace == 2){
+void drawThree(int threeFace){ //2-4
+  clearFace(threeFace);
+  if (threeFace == 2){
     setLed(15,15);
     setLed(24,29);
     setLed(17,17);
     setLed(22,22);
     setLed(19,20);
     }
-  else if(threeFace == 3){
+  else if (threeFace == 3){
     setLed(35,35);
     setLed(44,49);
     setLed(37,37);
     setLed(42,42);
     setLed(39,40);
   }
-  else if(threeFace == 4){
+  else if (threeFace == 4){
     setLed(54,55);
     setLed(64,59);
     setLed(57,57);
     setLed(52,52);
+    setLed(50,50);
+  }
+}
+
+void drawFour(int fourFace){
+  clearFace(fourFace);
+  if (fourFace == 2){
+    setLed(15,17);
+    setLed(25,29);
+    setLed(22,22);
+  }
+  else if (fourFace == 3){
+    setLed(35,37);
+    setLed(45,49);
+    setLed(42,42);
+  }
+  else if (fourFace == 4){
+    setLed(52,54);
+    setLed(60,64);
+    setLed(57,57);
+  }
+}
+
+void drawFive(int fiveFace){
+  clearFace(fiveFace);
+  if (fiveFace == 2){
+    setLed(24,25);
+    setLed(15,17);
+    setLed(22,22);
+    setLed(27,29);
+    setLed(19,20);
+  }
+  else if (fiveFace == 3){
+    setLed(44,45);
+    setLed(35,37);
+    setLed(42,42);
+    setLed(47,49);
+    setLed(39,40);
+  }
+  else if (fiveFace == 4){
+    setLed(64,64);
+    setLed(52,55);
+    setLed(57,57);
+    setLed(59,62);
     setLed(50,50);
   }
 }
