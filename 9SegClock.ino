@@ -60,7 +60,7 @@ void setLed(int sStart, int sEnd) {
 
 void clearLed(int cStart, int cEnd){
   for (int cPixel = cStart; cPixel <= cEnd; cPixel++){
-    pixels.setPixelColor(cPixel, pixels.Color(0xFF));
+    pixels.setPixelColor(cPixel, pixels.Color(0xFF,0xFF,0xFF));
   }
   pixels.show();
 }
