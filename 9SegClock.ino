@@ -78,6 +78,7 @@ void drawColon(){
 }
 
 void drawZero(int zeroFace){
+  clearFace(zeroFace);
   if (zeroFace == 1){
     setLed(0,5);
     setLed(9,14);
