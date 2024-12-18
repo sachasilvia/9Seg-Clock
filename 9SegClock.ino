@@ -199,6 +199,81 @@ void drawFive(int fiveFace){
   }
 }
 
+void drawSix(int sixFace){
+  clearFace(sixFace);
+  if (sixFace == 2){
+    setLed(15,20);
+    setLed(24,25);
+    setLed(27,29);
+    setLed(22,22);
+  }
+  else if (sixFace == 3){
+    setLed(35,40);
+    setLed(44,45);
+    setLed(47,49);
+    setLed(42,42);
+  }
+  else if (sixFace == 4){
+    setLed(50,55);
+    setLed(64,64);
+    setLed(59,62);
+    setLed(57,57);
+  }
+}
+
+void drawSeven(int sevenFace){
+  clearFace(sevenFace);
+  if (sevenFace == 2){
+    setLed(24,29);
+    setLed(15,16);
+  }
+  else if (sevenFace == 3){
+    setLed(44,49);
+    setLed(35,36);
+  }
+  else if (sevenFace == 4){
+    setLed(53,55);
+    setLed(60,64);
+  }
+}
+
+void drawEight(int eightFace){
+  clearFace(eightFace);
+  if (eightFace == 2){
+    setLed(15,20);
+    setLed(24,29);
+    setLed(22,22);
+}
+  else if (eightFace == 3){
+    setLed(35,40);
+    setLed(44,49);
+    setLed(42,42);
+  }
+  else if (eightFace == 4){
+    setLed(50,55);
+    setLed(59,64);
+    setLed(57,57);
+  }
+}
+
+void drawNine(int nineFace){
+  clearFace(nineFace);
+  if (nineFace == 2){
+    setLed(15,17);
+    setLed(24,29);
+    setLed(22,22);
+  }
+  else if (nineFace == 3){
+    setLed(35,37);
+    setLed(44,49);
+    setLed(42,42);
+  }
+  else if (nineFace == 4){
+    setLed(52,55);
+    setLed(60,64);
+    setLed(57,57);
+  }
+}
 // This method runs once 
 void setup() {
   Serial.begin(115200); // Start console at needed baud rate
