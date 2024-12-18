@@ -304,11 +304,9 @@ void loop() {
   // */
 
   // if newH != h...
-  if ((h > 0 && h < 10) || (h > 12 && < 22)) {
-    drawZero(1);
-  } else {
-    drawOne(1);
-  }
+  if ((h > 0 && h < 10) || (h > 12 && < 22)) {drawZero(1);}
+  else {drawOne(1);}
+  
   if      (h == 1 || h == 13) {drawOne(2);} 
   else if (h == 2 || h == 14) {drawTwo(2);} 
   else if (h == 3 || h == 15) {drawThree(2);} 
