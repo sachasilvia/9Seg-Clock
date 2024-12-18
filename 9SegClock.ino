@@ -335,6 +335,17 @@ void loop() {
     drawTwo(2);
   }
 
+  //if newM != m...
+  if      (m < 10){drawZero(3);}
+  if      (m == 1){drawOne(4);}
+  else if (m == 2){drawTwo(4);}
+  else if (m == 3){drawThree(4);}
+  else if (m == 4){drawFour(4);}
+  else if (m == 5){drawFive(4);}
+  else if (m == 6){drawSix(4);}
+  else if (m == 7){drawSeven(4);}
+  else if (m == 8){drawEight(4);}
+  else if (m == 9){drawNine(4);}
 
   // Time check update speed
   delay(updateFrequency);
