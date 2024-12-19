@@ -10,7 +10,6 @@
  */
 
 /* LED Map
-
 0  -  0    0  -  0    x    0  -  0    0  -  0
 |  x  |    |  x  |    |    |  x  |    |  x  | 
 0  -  0    0  -  0    x    0  -  0    0  -  0
@@ -22,18 +21,17 @@
 2  7 12   17 22 27   32   37 42 47   52 57 62
 1  8 11   18 21 28   31   38 41 48   51 58 61
 0  9 10   19 20 29   30   39 40 49   50 59 60
-
 */
 
-// Import Libraires
+// Import Libraries
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 #include <WiFi.h>
 #include <Adafruit_NeoPixel.h>
 
-// Define param values
+// Define param vals
 #define EST -18000            // Offset from GMT (sec)
-#define updateFrequency 1000  // Time check delay
+#define updateFrequency 1000  // Time check delay (1000 = 1 sec)
 #define PIN GPIO13            // Set NPXL to ESP pin
 #define NUMPIXELS 0           // Total LEDs
 
@@ -46,8 +44,6 @@ const char* ssid = "Shelby";          // Router SSID
 const char* password = "80138013";    // Router password
 const long utcOffsetInSeconds = EST;  // Set Timezone
 const int GPIO13 = 13;
-bool high = true;
-bool low = false;
 int currentHour = -1; // Create a current hour variable that will always start false
 int currentMinute = -1; // Create a current minute variable that will always start as false
 
@@ -57,8 +53,8 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);  // Time Gette
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);    // NPXL
 
 /*
-This method identifies a given range of LEDs and turns them on or off (inclusive)
-Call the function via: setLed(int,int,bool);
+This method identifies a given range of LEDs and turns them on (inclusive)
+Call the function via: setLed(int,int);
 */
 void setLed(int sStart, int sEnd) {
   for (int sPixel = sStart; sPixel <= sEnd; sPixel++) {
@@ -67,6 +63,10 @@ void setLed(int sStart, int sEnd) {
   pixels.show();
 }
 
+/*
+This method identifies a given range of LEDs and turns them off (inclusive)
+Call the function via: clearLed(int,int);
+*/
 void clearLed(int cStart, int cEnd) {
   for (int cPixel = cStart; cPixel <= cEnd; cPixel++) {
     pixels.setPixelColor(cPixel, pixels.Color(0xFF, 0xFF, 0xFF));
@@ -74,6 +74,10 @@ void clearLed(int cStart, int cEnd) {
   pixels.show();
 }
 
+/*
+This method identifies a face (1-4) on the clock and clears it via clearLed
+Call the function via clearFace(int);
+*/
 void clearFace(int face) {
   if      (face == 1) {clearLed(0, 14);}
   else if (face == 2) {clearLed(15, 29);}
@@ -81,11 +85,21 @@ void clearFace(int face) {
   else if (face == 4) {clearLed(50, 64);}
 }
 
+/*
+This method draws a colon on the clock and takes no parameters
+Call the function via drawColon();
+*/
 void drawColon() {
   setLed(33, 33);
   setLed(31, 31);
 }
 
+/*
+The following methods draw a number 0-9, on one of four clock faces (defined in param)
+for drawZero and drawOne, input params range from 1-4
+for drawTwo through drawNine, input params range from 2-4
+Call any of these functions via drawNumber(int);
+*/
 void drawZero(int zeroFace) {  //1-4
   clearFace(zeroFace);
   if (zeroFace == 1) {
@@ -264,10 +278,11 @@ void drawNine(int nineFace) {
     setLed(57, 57);
   }
 }
-// This method runs once
+
+//This method runs once
 void setup() {
   Serial.begin(115200);  // Start console at needed baud rate
-  Serial.print("Establishing connection with: ");
+  Serial.print("Establishing connection with: "); // Print confirmation
   Serial.println(ssid);
   WiFi.begin(ssid, password);  // Start WiFi
   // Loop until connection
@@ -276,12 +291,12 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("");
-  Serial.print("Successfully connected to: ");
+  Serial.print("Successfully connected to: "); // Print success message
   Serial.println(ssid);
   timeClient.begin();  // Get time
   pixels.begin();      // Create pixels
   pixels.clear();      // Wipe pixel data
-  drawColon();
+  drawColon();  // Draw permanent colon
 }
 
 // This method is an inf. loop
@@ -304,9 +319,9 @@ void loop() {
 
   // if currentHour is not the actual hour...
   if (currentHour != h){
-    if ((h > 0 && h < 10) || (h > 12 && h < 22)) {drawZero(1);}
-    else {drawOne(1);}
-  
+    if ((h > 0 && h < 10) || (h > 12 && h < 22)) {drawZero(1);} // If the hour is a single digit, draw 0 on first face (0X:XX)
+    else {drawOne(1);} // If the hour is double-digit, draw 1 on first face (1X:XX);
+    // Draw hour on second face, 2nd digit of hour if double digit
     if      (h == 1 || h == 13) {drawOne(2);} 
     else if (h == 2 || h == 14) {drawTwo(2);} 
     else if (h == 3 || h == 15) {drawThree(2);} 
@@ -324,8 +339,9 @@ void loop() {
 
   //if currentMinute is not the actual minute... 
   if (currentMinute != m){
-    if (m < 10){
+    if (m < 10){ // If the minute is a single digit... draw 0 on third face (XX:0X)
       drawZero(3);
+      // Draw minute on fourth face
       if      (m == 0){drawZero(4);}
       else if (m == 1){drawOne(4);}
       else if (m == 2){drawTwo(4);}
@@ -337,13 +353,15 @@ void loop() {
       else if (m == 8){drawEight(4);}
       else if (m == 9){drawNine(4);}
       }
-    else if (m >= 10){
+      
+      else if (m >= 10){ // Else, if minute is double-digit.. draw first digit on third face...
       if      (m/10 == 1){drawOne(3);}
       else if (m/10 == 2){drawTwo(3);}
       else if (m/10 == 3){drawThree(3);}
       else if (m/10 == 4){drawFour(3);}
       else if (m/10 == 5){drawFive(3);}
-      
+
+      // And draw second digit on fourth face
       if      (m%10 == 0){drawZero(4);}
       else if (m%10 == 1){drawOne(4);}
       else if (m%10 == 2){drawTwo(4);}
