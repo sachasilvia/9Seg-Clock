@@ -41,6 +41,8 @@ const long utcOffsetInSeconds = EST;  // Set Timezone
 const int GPIO13 = 13;
 bool high = true;
 bool low = false;
+int currentHour = -1; // Create a current hour variable that will always start false
+int currentMinute = -1; // Create a current minute variable that will always start as false
 
 // Create objects (sourced from libs)
 WiFiUDP ntpUDP;
@@ -273,8 +275,6 @@ void setup() {
   pixels.begin();      // Create pixels
   pixels.clear();      // Wipe pixel data
   drawColon();
-  int currentHour = -1; // Create a current hour variable that will always start false
-  int currentMinute = -1; // Create a current minute variable that will always start as false
 }
 
 // This method is an inf. loop
@@ -291,13 +291,13 @@ void loop() {
   */
   // /*
   Serial.println("");
-  Serial.println("Hour: " + H);
-  Serial.println("Minute: " + M);
+  Serial.println("Hour: " + h);
+  Serial.println("Minute: " + m);
   // */
 
   // if currentHour is not the actual hour...
   if (currentHour != h){
-    if ((h > 0 && h < 10) || (h > 12 && < 22)) {drawZero(1);}
+    if ((h > 0 && h < 10) || (h > 12 && h < 22)) {drawZero(1);}
     else {drawOne(1);}
   
     if      (h == 1 || h == 13) {drawOne(2);} 
@@ -314,25 +314,41 @@ void loop() {
     else if (h == 12 || h == 0) {drawTwo(2);}
     currentHour = h; // Change currentHour to be the current hour (only happens when the hour changes)
   }
+
   //if currentMinute is not the actual minute... 
   if (currentMinute != m){
-    if      (m < 10){drawZero(3);}
-    if      (m == 0){drawZero(4);}
-    else if (m == 1){drawOne(4);}
-    else if (m == 2){drawTwo(4);}
-    else if (m == 3){drawThree(4);}
-    else if (m == 4){drawFour(4);}
-    else if (m == 5){drawFive(4);}
-    else if (m == 6){drawSix(4);}
-    else if (m == 7){drawSeven(4);}
-    else if (m == 8){drawEight(4);}
-    else if (m == 9){drawNine(4);}
-    else if (m == 10){
-      drawOne(3);
-      drawZero(4);
-    } else if (m == 11){
-      draw
-    }
+    if (m < 10){
+      drawZero(3);
+      if      (m == 0){drawZero(4);}
+      else if (m == 1){drawOne(4);}
+      else if (m == 2){drawTwo(4);}
+      else if (m == 3){drawThree(4);}
+      else if (m == 4){drawFour(4);}
+      else if (m == 5){drawFive(4);}
+      else if (m == 6){drawSix(4);}
+      else if (m == 7){drawSeven(4);}
+      else if (m == 8){drawEight(4);}
+      else if (m == 9){drawNine(4);}
+      }
+    else if (m >= 10){
+      if      (m/10 == 1){drawOne(3);}
+      else if (m/10 == 2){drawTwo(3);}
+      else if (m/10 == 3){drawThree(3);}
+      else if (m/10 == 4){drawFour(3);}
+      else if (m/10 == 5){drawFive(3);}
+      
+      if      (m%10 == 0){drawZero(4);}
+      else if (m%10 == 1){drawOne(4);}
+      else if (m%10 == 2){drawTwo(4);}
+      else if (m%10 == 3){drawThree(4);}
+      else if (m%10 == 4){drawFour(4);}
+      else if (m%10 == 5){drawFive(4);}
+      else if (m%10 == 6){drawSix(4);}
+      else if (m%10 == 7){drawSeven(4);}
+      else if (m%10 == 8){drawEight(4);}
+      else if (m%10 == 9){drawNine(4);}
+      }
+
     currentMinute = m; // Change currentMinute to be the current minute (only happens when the minute changes)
   }
 
