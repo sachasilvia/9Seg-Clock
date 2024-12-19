@@ -1,11 +1,16 @@
 /* 
-Code by Sacha Silvia
-Credits to Rui Santos for original Date and Time retrieval from an NTP Server
-  L_> https://randomnerdtutorials.com/esp32-ntp-client-date-time-arduino-ide/
-For 9-Segment LED Clock 
-*/
+ *
+ * By Sacha Silvia
+ * Since 12/12/24
+ * For 9-Segment LED Clock (Running an ESP32)
+ * Program written in Arduino
+ *
+ * Credits to Rui Santos for original Date and Time retrieval from an NTP Server
+ *   ↪ https://randomnerdtutorials.com/esp32-ntp-client-date-time-arduino-ide/
+ */
 
-/* Map
+/* LED Map
+
 0  -  0    0  -  0    x    0  -  0    0  -  0
 |  x  |    |  x  |    |    |  x  |    |  x  | 
 0  -  0    0  -  0    x    0  -  0    0  -  0
@@ -17,7 +22,9 @@ For 9-Segment LED Clock
 2  7 12   17 22 27   32   37 42 47   52 57 62
 1  8 11   18 21 28   31   38 41 48   51 58 61
 0  9 10   19 20 29   30   39 40 49   50 59 60
+
 */
+
 // Import Libraires
 #include <NTPClient.h>
 #include <WiFiUdp.h>
