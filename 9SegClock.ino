@@ -66,15 +66,10 @@ void clearLed(int cStart, int cEnd) {
 }
 
 void clearFace(int face) {
-  if (face == 1) {
-    clearLed(0, 14);
-  } else if (face == 2) {
-    clearLed(15, 29);
-  } else if (face == 3) {
-    clearLed(35, 49);
-  } else if (face == 4) {
-    clearLed(50, 64);
-  }
+  if      (face == 1) {clearLed(0, 14);}
+  else if (face == 2) {clearLed(15, 29);}
+  else if (face == 3) {clearLed(35, 49);}
+  else if (face == 4) {clearLed(50, 64);}
 }
 
 void drawColon() {
@@ -101,15 +96,10 @@ void drawZero(int zeroFace) {  //1-4
 
 void drawOne(int oneFace) {  //1-4
   clearFace(oneFace);
-  if (oneFace == 1) {
-    setLed(10, 14);
-  } else if (oneFace == 2) {
-    setLed(25, 29);
-  } else if (oneFace == 3) {
-    setLed(45, 49);
-  } else if (oneFace == 4) {
-    setLed(60, 64);
-  }
+  if      (oneFace == 1) {setLed(10, 14);} 
+  else if (oneFace == 2) {setLed(25, 29);}
+  else if (oneFace == 3) {setLed(45, 49);}
+  else if (oneFace == 4) {setLed(60, 64);}
 }
 
 void drawTwo(int twoFace) {  //2-4
