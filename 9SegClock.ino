@@ -273,6 +273,8 @@ void setup() {
   pixels.begin();      // Create pixels
   pixels.clear();      // Wipe pixel data
   drawColon();
+  int currentHour = -1; // Create a current hour variable that will always start false
+  int currentMinute = -1; // Create a current minute variable that will always start as false
 }
 
 // This method is an inf. loop
@@ -293,35 +295,46 @@ void loop() {
   Serial.println("Minute: " + M);
   // */
 
-  // if newH != h...
-  if ((h > 0 && h < 10) || (h > 12 && < 22)) {drawZero(1);}
-  else {drawOne(1);}
+  // if currentHour is not the actual hour...
+  if (currentHour != h){
+    if ((h > 0 && h < 10) || (h > 12 && < 22)) {drawZero(1);}
+    else {drawOne(1);}
   
-  if      (h == 1 || h == 13) {drawOne(2);} 
-  else if (h == 2 || h == 14) {drawTwo(2);} 
-  else if (h == 3 || h == 15) {drawThree(2);} 
-  else if (h == 4 || h == 16) {drawFour(2);} 
-  else if (h == 5 || h == 17) {drawFive(2);} 
-  else if (h == 6 || h == 18) {drawSix(2);} 
-  else if (h == 7 || h == 19) {drawSeven(2);} 
-  else if (h == 8 || h == 20) {drawEight(2);} 
-  else if (h == 9 || h == 21) {drawNine(2);} 
-  else if (h == 10 || h == 22) {drawZero(2);} 
-  else if (h == 11 || h == 23) {drawOne(2);} 
-  else if (h == 12 || h == 0) {drawTwo(2);}
-
-  //if newM != m...
-  if      (m < 10){drawZero(3);}
-  if      (m == 0){drawZero(4);}
-  else if (m == 1){drawOne(4);}
-  else if (m == 2){drawTwo(4);}
-  else if (m == 3){drawThree(4);}
-  else if (m == 4){drawFour(4);}
-  else if (m == 5){drawFive(4);}
-  else if (m == 6){drawSix(4);}
-  else if (m == 7){drawSeven(4);}
-  else if (m == 8){drawEight(4);}
-  else if (m == 9){drawNine(4);}
+    if      (h == 1 || h == 13) {drawOne(2);} 
+    else if (h == 2 || h == 14) {drawTwo(2);} 
+    else if (h == 3 || h == 15) {drawThree(2);} 
+    else if (h == 4 || h == 16) {drawFour(2);} 
+    else if (h == 5 || h == 17) {drawFive(2);} 
+    else if (h == 6 || h == 18) {drawSix(2);} 
+    else if (h == 7 || h == 19) {drawSeven(2);} 
+    else if (h == 8 || h == 20) {drawEight(2);} 
+    else if (h == 9 || h == 21) {drawNine(2);} 
+    else if (h == 10 || h == 22) {drawZero(2);} 
+    else if (h == 11 || h == 23) {drawOne(2);} 
+    else if (h == 12 || h == 0) {drawTwo(2);}
+    currentHour = h; // Change currentHour to be the current hour (only happens when the hour changes)
+  }
+  //if currentMinute is not the actual minute... 
+  if (currentMinute != m){
+    if      (m < 10){drawZero(3);}
+    if      (m == 0){drawZero(4);}
+    else if (m == 1){drawOne(4);}
+    else if (m == 2){drawTwo(4);}
+    else if (m == 3){drawThree(4);}
+    else if (m == 4){drawFour(4);}
+    else if (m == 5){drawFive(4);}
+    else if (m == 6){drawSix(4);}
+    else if (m == 7){drawSeven(4);}
+    else if (m == 8){drawEight(4);}
+    else if (m == 9){drawNine(4);}
+    else if (m == 10){
+      drawOne(3);
+      drawZero(4);
+    } else if (m == 11){
+      draw
+    }
+    currentMinute = m; // Change currentMinute to be the current minute (only happens when the minute changes)
+  }
 
   // Time check update speed
   delay(updateFrequency);
