@@ -313,8 +313,10 @@ void loop() {
   */
   // /*
   Serial.println("");
-  Serial.println("Hour: " + h);
-  Serial.println("Minute: " + m);
+  Serial.print("Hour: ");
+  Serial.println(h);
+  Serial.print("Minute: ");
+  Serial.println(m);
   // */
 
   // if currentHour is not the actual hour...
