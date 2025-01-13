@@ -33,7 +33,7 @@
 #define EST -18000            // Offset from GMT (sec)
 #define updateFrequency 1000  // Time check delay (1000 = 1 sec)
 #define PIN GPIO13            // Set NPXL to ESP pin
-#define NUMPIXELS 0           // Total LEDs
+#define NUMPIXELS 61           // Total LEDs
 
 // Declare gloabal vars
 int h;  // Store hours
