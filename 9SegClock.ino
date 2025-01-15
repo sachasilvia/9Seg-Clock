@@ -32,8 +32,8 @@
 // Define param vals
 #define EST -18000            // Offset from GMT (sec)
 #define updateFrequency 1000  // Time check delay (1000 = 1 sec)
-#define PIN GPIO13            // Set NPXL to ESP pin
-#define NUMPIXELS 61           // Total LEDs
+#define PIN 13            // Set NPXL to ESP pin
+#define NUMPIXELS 65           // Total LEDs
 
 // Declare gloabal vars
 int h;  // Store hours
@@ -43,7 +43,6 @@ int m;  // Store minutes
 const char* ssid = "Shelby";          // Router SSID
 const char* password = "80138013";    // Router password
 const long utcOffsetInSeconds = EST;  // Set Timezone
-const int GPIO13 = 13;
 int currentHour = -1; // Create a current hour variable that will always start false
 int currentMinute = -1; // Create a current minute variable that will always start as false
 
@@ -69,7 +68,7 @@ Call the function via: clearLed(int,int);
 */
 void clearLed(int cStart, int cEnd) {
   for (int cPixel = cStart; cPixel <= cEnd; cPixel++) {
-    pixels.setPixelColor(cPixel, pixels.Color(0xFF, 0xFF, 0xFF));
+    pixels.setPixelColor(cPixel, pixels.Color(0, 0, 0));
   }
   pixels.show();
 }
