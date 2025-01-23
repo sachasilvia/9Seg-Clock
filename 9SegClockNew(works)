@@ -45,6 +45,7 @@ int day;
 int weekday;
 int lastSunday;
 int firstSunday;
+bool isDST;
 String formattedDate;
 String StringMonth;
 String StringDay;
@@ -216,15 +217,17 @@ void loop() {
       || ((month == MARCH) && (day > 14))
       || ((month == NOVEMBER) && (firstSunday >= 0) && (day <= 7))) {
     h = timeClient.getHours() + 1;
+    isDST == true;
   } else {
     h = timeClient.getHours();
+    isDST == false;
   }
   m = timeClient.getMinutes();
 
   // Special cases for 24 Hr clock corrections
-  if (h == 0) { // 0:00 should actually be seen as "12:00" 
+  if (h == 0) {
     h = 12;
-  } else if (h > 12) { // 13:00 should actually be seen as "1:00"
+  } else if (h > 12) {
     h -= 12;
   }
 
@@ -237,7 +240,10 @@ void loop() {
   pixels.show(); // Update pixels
 
   Serial.print(h);
+  Serial.print(":");
   Serial.println(m);
+  Serial.print("Is it Daylight Savings?  ");
+  Serial.println(isDST);
 
   delay(DELAY); // Time check update speed
 }
