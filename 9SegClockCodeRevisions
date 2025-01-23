@@ -30,22 +30,16 @@
 #include <Adafruit_NeoPixel.h>
 
 // Define param vals
-#define EST -18000    // Offset from GMT (sec)
+#define EST -18000  // Offset from GMT (sec)
 #define DELAY 1000
 #define PIN 13        // Set NPXL to ESP pin
 #define NUMPIXELS 65  // Total LEDs
-#define sunday 0
-#define march 3
-#define november 11
+#define MARCH 3
+#define NOVEMBER 11
 
-// Declare gloabal vars
-int h;  // Store hours
-int m;  // Store minutes
-
-// Initialize global vars
-const char* ssid = "TP-Link_51CA";    // Router SSID
-const char* password = "password";    // Router password
-const long utcOffsetInSeconds = EST;  // Set Timezone
+// Declare global vars
+int h;
+int m;
 int month;
 int day;
 int weekday;
@@ -55,14 +49,19 @@ String formattedDate;
 String StringMonth;
 String StringDay;
 
+// Initialize global vars
+const char* ssid = "TP-Link_51CA";    // Router SSID
+const char* password = "password";    // Router password
+const long utcOffsetInSeconds = EST;  // Set Timezone
+
 // Create objects (sourced from libs)
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);  // Time Getter
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);    // NPXL
 
 /*
-This method identifies a given range of LEDs and turns them on (inclusive)
-Call the function via: setLed(int,int);
+These methods identify a given range of LEDs and assigns them color values (inclusive)
+Call the function via: setLed(int) or setLed(int, int);
 */
 void setLed(int sStart, int sEnd) {
   for (int sPixel = sStart; sPixel <= sEnd; sPixel++) {
@@ -75,7 +74,7 @@ void setLed(int sStart) {
 }
 
 /*
-This method identifies a given range of LEDs and turns them off (inclusive)
+This method identifies a given range of LEDs "and turns them off" (inclusive)
 Call the function via: clearLed(int,int);
 */
 void clearLed(int cStart, int cEnd) {
@@ -109,19 +108,21 @@ void drawColon() {
   setLed(61);
 }
 
+/*
+This method draws a number (given) on a face (given) using switch states as the arguemnt for what number to draw
+Call the function via drawDigit(int, int);
+*/
 void drawDigit(int digit, int face) {
   clearFace(face);
   int startPixel = (face - 1) * 15;  // Assuming each face has 15 LEDs allocated.
   switch (digit) {
-    case 0:
+    case 0:  //Draw 0 ... up to case 9
       setLed(startPixel + 0, startPixel + 5);
       setLed(startPixel + 9, startPixel + 14);
       break;
-    // Add cases for 1 through 9 similarly
     case 1:
       setLed(startPixel + 10, startPixel + 14);
       break;
-    // ... up to case 9
     case 2:
       setLed(startPixel + 4, startPixel + 5);
       setLed(startPixel + 12, startPixel + 14);
@@ -173,6 +174,7 @@ void drawDigit(int digit, int face) {
 
 //This method runs once
 void setup() {
+
   Serial.begin(115200);                            // Start console at needed baud rate
   Serial.print("Establishing connection with: ");  // Print confirmation
   Serial.println(ssid);
@@ -186,8 +188,10 @@ void setup() {
   Serial.print("Successfully connected to: ");  // Print success message
   Serial.println(ssid);
   timeClient.begin();  // Get time
+
   pixels.begin();      // Create pixels
   pixels.clear();      // Wipe pixel data
+
   drawColon();         // Draw permanent colon
 }
 
@@ -195,6 +199,8 @@ void setup() {
 void loop() {
 
   timeClient.update();  // Re-check time
+
+  //Assign variables for daylight savings formula based on the updated time
   formattedDate = timeClient.getFormattedDate();
   StringMonth = formattedDate.substring(5, 7);
   StringDay = formattedDate.substring(8, 10);
@@ -204,31 +210,34 @@ void loop() {
   lastSunday = day - weekday;
   firstSunday = weekday - day;
 
-  // Set (and reset) time to vars
-  if (((month > march) && (month < november))
-      || ((month == march) && (previousSunday >= 8))
-      || ((month == march) && (day > 14))
-      || ((month == november) && (firstSunday >= 0) && (day <= 7))) {
+  // Set (and reset) time to vars based on daylight savings formula
+  if (((month > MARCH) && (month < NOVEMBER))
+      || ((month == MARCH) && (lastSunday >= 8))
+      || ((month == MARCH) && (day > 14))
+      || ((month == NOVEMBER) && (firstSunday >= 0) && (day <= 7))) {
     h = timeClient.getHours() + 1;
   } else {
     h = timeClient.getHours();
   }
   m = timeClient.getMinutes();
 
+  // Special cases for 24 Hr clock corrections
   if (h == 0) {
     h = 12;
   } else if (h > 12) {
     h -= 12;
   }
 
+  //Draw digit of time on each face
   drawDigit(h / 10, 1);
   drawDigit(h % 10, 2);
   drawDigit(m / 10, 3);
   drawDigit(m % 10, 4);
 
-  pixels.show();
+  pixels.show(); // Update pixels
+
   Serial.print(h);
   Serial.println(m);
-  // Time check update speed
-  delay(DELAY);
+
+  delay(DELAY); // Time check update speed
 }
